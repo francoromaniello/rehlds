@@ -132,3 +132,4 @@ Select the preferred C/C++ Compiler installation
 ## How can I help the project?
 Just install it on your game server and report problems you faced.
 Merge requests are also welcome :)
+
