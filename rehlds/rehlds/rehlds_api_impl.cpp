@@ -839,6 +839,10 @@ IRehldsHookRegistry_SV_EmitPings* CRehldsHookchains::SV_EmitPings() {
 	return &m_SV_EmitPings;
 }
 
+IRehldsHookRegistry_Con_Printf* CRehldsHookchains::Con_Printf() {
+	return &m_Con_Printf;
+}
+
 int EXT_FUNC CRehldsApi::GetMajorVersion()
 {
 	return REHLDS_API_VERSION_MAJOR;
