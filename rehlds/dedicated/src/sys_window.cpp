@@ -243,20 +243,43 @@ void Sys_WriteProcessIdFile()
 	;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpReserved)
 {
+	switch (fdwReason) {
+		case DLL_PROCESS_ATTACH:
+			break;
+
+		case DLL_THREAD_ATTACH:
+			// Do thread-specific initialization.
+			break;
+
+		case DLL_THREAD_DETACH:
+			// Do thread-specific cleanup.
+			break;
+
+		case DLL_PROCESS_DETACH:
+			// Perform any necessary cleanup.
+			break;
+	}
+
+	return true;
+}
+
+extern "C" __declspec(dllexport) int SV_StartGameServer(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
+
+int SV_StartGameServer(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd) {
 #ifdef LAUNCHER_FIXES
 	return CatchAndWriteMiniDump([=]()
-	{
+		{
 #endif
-		if (ShouldLaunchAppViaSteam(lpCmdLine, STDIO_FILESYSTEM_LIB, STDIO_FILESYSTEM_LIB))
-			return 0;
+			if (ShouldLaunchAppViaSteam(lpCmdLine, STDIO_FILESYSTEM_LIB, STDIO_FILESYSTEM_LIB))
+				return 0;
 
-		//auto command = CommandLineToArgvW(GetCommandLineW(), (int *)&lpCmdLine);
-		auto ret = StartServer(lpCmdLine);
-		//LocalFree(command);
-		return ret;
+			//auto command = CommandLineToArgvW(GetCommandLineW(), (int *)&lpCmdLine);
+			auto ret = StartServer(lpCmdLine);
+			//LocalFree(command);
+			return ret;
 #ifdef LAUNCHER_FIXES
-	}, lpCmdLine);
+		}, lpCmdLine);
 #endif
 }

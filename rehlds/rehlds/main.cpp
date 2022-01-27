@@ -67,3 +67,11 @@ void __attribute__((destructor)) DllMainUnload()
 }
 
 #endif // _WIN32
+
+
+extern "C" __declspec(dllexport) void SV_GetFnptrs(enginefuncs_t & engineFuncs, globalvars_t & globalVars);
+
+void SV_GetFnptrs(enginefuncs_t& engineFuncs, globalvars_t& globalVars) {
+	engineFuncs = g_engfuncsExportedToDlls;
+	globalVars = gGlobalVariables;
+}
